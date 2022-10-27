@@ -16,6 +16,9 @@ export class Device {
     @Column()
     maximumHourEnergyConsumption: string;
 
+    @Column({ nullable: true })
+    userId: string;
+
     @ManyToOne(() => User, user => user.devices, { cascade: true })
     @JoinColumn({ name: 'userId' })
     user: User;

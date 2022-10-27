@@ -1,5 +1,5 @@
 import { IsEmpty } from "class-validator";
-import { Device } from "src/devices/models/device.entity";
+import { Device } from "src/device/models/device.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./role.enum";
 

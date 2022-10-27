@@ -1,4 +1,4 @@
-import { Device } from "src/devices/models/device.entity";
+import { Device } from "src/device/models/device.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "energy"})
@@ -10,7 +10,10 @@ export class Energy {
     timestamp: string;
 
     @Column()
-    energyConsumption: string;
+    consumption: string;
+
+    @Column()
+    deviceId: string;
 
     @ManyToOne(() => Device, device => device.energy, { cascade: true })
     @JoinColumn({ name: 'deviceId' })
