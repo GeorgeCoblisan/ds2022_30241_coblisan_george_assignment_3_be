@@ -11,6 +11,8 @@
     "synchronize": true,
     "autoLoadEntities": true,
     "extra": {
-        "ssl": true
+        "ssl": {
+            "rejectUnauthorized": false
+        }
     }
 }
