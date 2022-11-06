@@ -49,7 +49,6 @@ export class UserService {
             id: userId,
         })
         const newUser = { id: userId, role: Role.CLIENT, ...userBody };
-        await this.userRepository.remove(user);
         return await this.userRepository.save(newUser);
     }
 }

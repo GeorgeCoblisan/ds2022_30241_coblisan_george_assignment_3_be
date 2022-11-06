@@ -12,10 +12,10 @@ export class Energy {
     @Column()
     consumption: string;
 
-    @Column()
+    @Column({ nullable: true })
     deviceId: string;
 
-    @ManyToOne(() => Device, device => device.energy, { cascade: true })
+    @ManyToOne(() => Device, device => device.energy, { cascade: true, onUpdate: 'CASCADE' })
     @JoinColumn({ name: 'deviceId' })
     device: Device;
 }

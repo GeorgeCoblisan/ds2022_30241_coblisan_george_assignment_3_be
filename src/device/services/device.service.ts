@@ -30,7 +30,6 @@ export class DeviceService {
     });
     const newDevice = device;
     newDevice.userId = userId;
-    await this.deviceRepository.remove(device);
     return await this.deviceRepository.save(newDevice);
   }
 }

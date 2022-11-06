@@ -23,6 +23,6 @@ export class Device {
     @JoinColumn({ name: 'userId' })
     user: User;
 
-    @OneToMany(() => Energy, energy => energy.device)
+    @OneToMany(() => Energy, energy => energy.device, { onUpdate: 'CASCADE' })
     energy: Energy[];
 }
