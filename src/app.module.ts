@@ -12,23 +12,23 @@ import { UserModule } from './users/user.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
-      useFactory: async () => 
-        Object.assign(await getConnectionOptions(), {
-          autoLoadEntities: true,
-        }),
-    }),
-    ConfigModule.forRoot(),
-    // TypeOrmModule.forRoot({
-    //   url: process.env.DATABASE_URL,
-    //   type: "postgres",
-    //   ssl: {
-    //     rejectUnauthorized: false,
-    //   },
-    //   synchronize: true,
-    //   entities: ["dist/**/*.entity{.ts,.js}"],
-    //   autoLoadEntities: true,
+    // TypeOrmModule.forRootAsync({
+    //   useFactory: async () => 
+    //     Object.assign(await getConnectionOptions(), {
+    //       autoLoadEntities: true,
+    //     }),
     // }),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot({
+      url: process.env.DATABASE_URL,
+      type: "postgres",
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      synchronize: true,
+      entities: ["dist/**/*.entity{.ts,.js}"],
+      autoLoadEntities: true,
+    }),
     UserModule,
     DeviceModule,
     EnergyModule,
