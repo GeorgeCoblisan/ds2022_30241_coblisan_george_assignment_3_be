@@ -32,4 +32,11 @@ export class DeviceService {
     newDevice.userId = userId;
     return await this.deviceRepository.save(newDevice);
   }
+
+  async getEnergyByDevice(deviceId: string): Promise<string> {
+    const device = await this.deviceRepository.findOneBy({
+      id: deviceId,
+    });
+    return device.maximumHourEnergyConsumption;
+  }
 }

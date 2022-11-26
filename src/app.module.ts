@@ -9,26 +9,29 @@ import { AppService } from './app.service';
 import { DeviceModule } from './device/device.module';
 import { EnergyModule } from './energy/energy.module';
 import { UserModule } from './users/user.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { DeviceService } from './device/services/device.service';
 
 @Module({
   imports: [
-    // TypeOrmModule.forRootAsync({
-    //   useFactory: async () => 
-    //     Object.assign(await getConnectionOptions(), {
-    //       autoLoadEntities: true,
-    //     }),
-    // }),
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      url: process.env.DATABASE_URL,
-      type: "postgres",
-      ssl: {
-        rejectUnauthorized: false,
-      },
-      synchronize: true,
-      entities: ["dist/**/*.entity{.ts,.js}"],
-      autoLoadEntities: true,
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => 
+        Object.assign(await getConnectionOptions(), {
+          autoLoadEntities: true,
+        }),
     }),
+    EventEmitterModule.forRoot(),
+    ConfigModule.forRoot(),
+    // TypeOrmModule.forRoot({
+    //   url: process.env.DATABASE_URL,
+    //   type: "postgres",
+    //   ssl: {
+    //     rejectUnauthorized: false,
+    //   },
+    //   synchronize: true,
+    //   entities: ["dist/**/*.entity{.ts,.js}"],
+    //   autoLoadEntities: true,
+    // }),
     UserModule,
     DeviceModule,
     EnergyModule,

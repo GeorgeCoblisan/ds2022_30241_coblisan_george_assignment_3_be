@@ -8,5 +8,6 @@ import { EnergyService } from "./services/energy.service";
     imports: [TypeOrmModule.forFeature([Energy])],
     controllers: [EnergyController],
     providers: [EnergyService],
+    exports: [EnergyService],
 })
 export class EnergyModule {}

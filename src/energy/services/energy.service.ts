@@ -34,4 +34,24 @@ export class EnergyService {
         await this.energyRepository.save(energy);
         return energy;
     }
+
+    async addEnergy(createEnergy: CreateEnergy): Promise<Energy> {
+        const energy = this.energyRepository.create({
+            timestamp: createEnergy.timestamp,
+            consumption: createEnergy.consumption,
+            deviceId: createEnergy.deviceId,
+        });
+        await this.energyRepository.save(energy);
+        return energy;
+    }
+
+    async getAllEnergyForDevice(deviceId: string): Promise<string> {
+        const sum = await this.energyRepository
+            .createQueryBuilder('energy')
+            .select("sum(energy.consumption::float)", "sum")
+            .where('energy.deviceId = :id', { id: deviceId })
+            .getRawOne();
+        
+        return sum;
+    }
 }
