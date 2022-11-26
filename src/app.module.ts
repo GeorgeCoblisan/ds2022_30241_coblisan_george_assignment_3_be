@@ -10,7 +10,7 @@ import { DeviceModule } from './device/device.module';
 import { EnergyModule } from './energy/energy.module';
 import { UserModule } from './users/user.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { DeviceService } from './device/services/device.service';
+import { NotificationGateway } from './notification.gateway';
 
 @Module({
   imports: [
@@ -37,6 +37,9 @@ import { DeviceService } from './device/services/device.service';
     EnergyModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService, 
+    NotificationGateway
+  ],
 })
 export class AppModule {}

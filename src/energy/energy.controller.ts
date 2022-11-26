@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
 
 import { CreateEnergy } from './models/create-energy.model';
 import { Energy } from './models/energy.entity';
@@ -22,10 +21,5 @@ export class EnergyController {
     @Post()
     async createEnergy(@Body() createEnergy: CreateEnergy): Promise<Energy> {
         return this.energyService.createEnergy(createEnergy);
-    }
-
-    @EventPattern('hello') 
-    async hello(data: Record<string, unknown>) {
-        console.log(data);
     }
 }

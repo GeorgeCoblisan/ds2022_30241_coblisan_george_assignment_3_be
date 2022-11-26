@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { DeviceService } from './device/services/device.service';
 import { CreateEnergy } from './energy/models/create-energy.model';
 import { EnergyService } from './energy/services/energy.service';
+import { NotificationGateway } from './notification.gateway';
 
 @Controller()
 export class AppController {
@@ -12,6 +13,7 @@ export class AppController {
     private readonly appService: AppService,
     private deviceService: DeviceService,
     private energyService: EnergyService,
+    private notificationSocket: NotificationGateway,
   ) {}
 
   @Get()
@@ -19,6 +21,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('test')
   @MessagePattern('energy')
   public async execute(
     @Payload() data: any,
@@ -36,8 +39,6 @@ export class AppController {
       deviceId: dataReceived.device_id,
       timestamp: dataReceived.timestamp
     };
-    
-    this.energyService.addEnergy(createEnergy);
 
     const energyForCurrentDevice = await this.deviceService.getEnergyByDevice(dataReceived.device_id as string);
     var energyCurrentDevice = +energyForCurrentDevice;
@@ -52,9 +53,12 @@ export class AppController {
 
     if (energyTotal > energyCurrentDevice) {
       console.log("DA");
+      this.notificationSocket.notifyUser(createEnergy);
     }
     else {
       console.log("NU");
+      this.energyService.addEnergy(createEnergy);
+      this.notificationSocket.sendData(createEnergy);
     }
   }
   
