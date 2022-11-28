@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Patch } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { CreateDevice } from "./models/create-device.model";
 import { Device } from "./models/device.entity";
 import { DeviceService } from "./services/device.service";
 
@@ -16,6 +17,11 @@ export class DeviceController {
     @Get(':userId')
     async getDeviceByUser(@Param('userId') userId: string): Promise<Device[]> {
         return this.deviceService.getDevicesByUser(userId);
+    }
+
+    @Post()
+    async createDevice(@Body() createDevice: CreateDevice): Promise<Device> {
+        return this.deviceService.createDevice(createDevice);
     }
 
     @Patch('device/:deviceId/user/:userId')

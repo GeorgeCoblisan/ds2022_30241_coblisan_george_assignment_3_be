@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateDevice } from '../models/create-device.model';
 import { Device } from '../models/device.entity';
 
 @Injectable()
@@ -22,6 +23,12 @@ export class DeviceService {
       )
       .where('device.userId = :id', { id: userId })
       .getRawMany();
+  }
+
+  async createDevice(createDevice: CreateDevice): Promise<Device> {
+    const device = this.deviceRepository.create(createDevice);
+    await this.deviceRepository.save(device);
+    return device;
   }
 
   async associateUserToDevice(deviceId: string, userId: string) {

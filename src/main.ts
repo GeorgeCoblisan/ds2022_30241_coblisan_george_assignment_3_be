@@ -20,7 +20,7 @@ async function bootstrap() {
     },
   });
 
-  app.enableCors({origin: 'http://localhost:4200'});
+  app.enableCors({origin: 'http://localhost'});
   app.useGlobalPipes(new ValidationPipe());
   //app.enableCors({origin: 'https://energyplatformfe.herokuapp.com' });
   

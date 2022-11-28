@@ -16,26 +16,26 @@ import { NotificationGateway } from './notification.gateway';
   imports: [
     //LOCAL
 
-    TypeOrmModule.forRootAsync({
-      useFactory: async () => 
-        Object.assign(await getConnectionOptions(), {
-          autoLoadEntities: true,
-        }),
-    }),
+    // TypeOrmModule.forRootAsync({
+    //   useFactory: async () => 
+    //     Object.assign(await getConnectionOptions(), {
+    //       autoLoadEntities: true,
+    //     }),
+    // }),
 
     //DOCKER
 
-    // TypeOrmModule.forRoot({
-    //   type: "postgres",
-    //   host: "postgres",
-    //   username: "postgres",
-    //   password: "george",
-    //   port: 5432,
-    //   database: "EnergyUtility",
-    //   entities: ["dist/**/*.entity{.ts,.js}"],
-    //   synchronize: true,
-    //   autoLoadEntities: true
-    // }),
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      host: "postgres",
+      username: "postgres",
+      password: "george",
+      port: 5432,
+      database: "EnergyUtility",
+      entities: ["dist/**/*.entity{.ts,.js}"],
+      synchronize: true,
+      autoLoadEntities: true
+    }),
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot(),
 
