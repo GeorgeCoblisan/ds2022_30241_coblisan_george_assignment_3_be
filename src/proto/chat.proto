@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+package chat;
+
+// Chat service, which communicates via HTTP2
+service ChatService {
+  rpc sendChatMessage (ChatMessage) returns (stream ChatMessageResponse);
+
+  rpc getChatMessage (GetChatMessageRequest) returns (stream ChatMessageResponseList);
+}
+
+message ChatMessage {
+  string username = 1;
+  string message = 2;
+  string seen = 3;
+  string typing = 4;
+}
+
+message ChatMessageResponse {
+  string timestamp = 1;
+  ChatMessage message = 2;
+}
+
+message GetChatMessageRequest {
+  string username = 1;
+}
+
+message GetChatMessageResponse {
+    ChatMessage message = 1;
+}
+
+message ChatMessageResponseList {
+  repeated ChatMessageResponse messages = 1;
+}

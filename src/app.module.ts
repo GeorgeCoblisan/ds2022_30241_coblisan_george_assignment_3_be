@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -11,31 +11,33 @@ import { EnergyModule } from './energy/energy.module';
 import { UserModule } from './users/user.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { NotificationGateway } from './notification.gateway';
+import { HeroModule } from './hero/hero.module';
+import { LoggerMiddleware } from './logger.middleware';
 
 @Module({
   imports: [
     //LOCAL
 
-    // TypeOrmModule.forRootAsync({
-    //   useFactory: async () => 
-    //     Object.assign(await getConnectionOptions(), {
-    //       autoLoadEntities: true,
-    //     }),
-    // }),
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => 
+        Object.assign(await getConnectionOptions(), {
+          autoLoadEntities: true,
+        }),
+    }),
 
     //DOCKER
 
-    TypeOrmModule.forRoot({
-      type: "postgres",
-      host: "postgres",
-      username: "postgres",
-      password: "george",
-      port: 5432,
-      database: "EnergyUtility",
-      entities: ["dist/**/*.entity{.ts,.js}"],
-      synchronize: true,
-      autoLoadEntities: true
-    }),
+    // TypeOrmModule.forRoot({
+    //   type: "postgres",
+    //   host: "postgres",
+    //   username: "postgres",
+    //   password: "george",
+    //   port: 5432,
+    //   database: "EnergyUtility",
+    //   entities: ["dist/**/*.entity{.ts,.js}"],
+    //   synchronize: true,
+    //   autoLoadEntities: true
+    // }),
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot(),
 
@@ -54,11 +56,18 @@ import { NotificationGateway } from './notification.gateway';
     UserModule,
     DeviceModule,
     EnergyModule,
+    HeroModule,
   ],
   controllers: [AppController],
   providers: [
     AppService, 
-    NotificationGateway
+    NotificationGateway,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('*');
+  }
+}
